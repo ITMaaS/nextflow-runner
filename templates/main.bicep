@@ -49,7 +49,7 @@ var roleIdMapping = {
 
 var tagKvp = split(tagVersion, ':')
 
-resource keyvault 'Microsoft.KeyVault/vaults@2021-04-01-preview' = {
+resource keyvault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: keyVaultName
   location: location
   tags: {
@@ -61,7 +61,6 @@ resource keyvault 'Microsoft.KeyVault/vaults@2021-04-01-preview' = {
       family: 'A'
     }
     tenantId: tenantId
-    enabledForTemplateDeployment: true
     enableRbacAuthorization: true
     networkAcls: {
       defaultAction: 'Allow'
@@ -70,8 +69,8 @@ resource keyvault 'Microsoft.KeyVault/vaults@2021-04-01-preview' = {
   }
 }
 
-resource kvRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(roleIdMapping[roleName],keyvaultSpnObjectId,keyvault.id)
+resource kvRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(roleIdMapping[roleName], keyvaultSpnObjectId, keyvault.id)
   scope: keyvault
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleIdMapping[roleName])
@@ -100,7 +99,7 @@ module batch 'modules/batchservice.bicep' = {
     keyvaultName: keyVaultName
     location: location
     batchAccountName: batchAccountName
-    storageAccountName: batchStorageName    
+    storageAccountName: batchStorageName
   }
 }
 
@@ -143,7 +142,7 @@ module appService 'modules/appservice.bicep' = {
 output appServiceAppName string = appService.outputs.appServiceAppName
 output functionAppName string = functionApp.outputs.functionAppName
 output sqlServerFQDN string = sqlDatabase.outputs.sqlServerFQDN
-output sqlServerName string =sqlDatabase.outputs.sqlServerName
+output sqlServerName string = sqlDatabase.outputs.sqlServerName
 output sqlDbName string = sqlDatabase.outputs.sqlDbName
 output sqlUserName string = sqlDatabase.outputs.sqlUserName
 output batchAccountName string = batch.outputs.batchAccountName
