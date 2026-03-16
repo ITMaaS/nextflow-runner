@@ -9,25 +9,23 @@ param storagePassphrase string
 param storageSASToken string
 param functionAppUrl string
 
-//param expireTime string = dateTimeAdd(utcNow('u'), 'P1Y')
-
 @allowed([
   'nonprod'
   'prod'
 ])
 param environmentType string
 
-// App Settings
 @secure()
 param sqlConnection string
 
-var appServicePlanSkuName = (environmentType == 'prod') ? 'P2_v2' : 'B1'
-var appServicePlanTierName = (environmentType == 'prod') ? 'PremiumV2' : 'Basic'
+// Updated to modern App Service SKUs
+var appServicePlanSkuName = (environmentType == 'prod') ? 'P2v3' : 'B1'
+var appServicePlanTierName = (environmentType == 'prod') ? 'PremiumV3' : 'Basic'
 
 var tagName = split(tagVersion, ':')[0]
 var tagValue = split(tagVersion, ':')[1]
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-15' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: nfRunnerAPIAppPlanName
   location: location
   tags: {
@@ -37,13 +35,13 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-15' = {
     name: appServicePlanSkuName
     tier: appServicePlanTierName
   }
-  kind: 'Linux'
+  kind: 'linux' // newer API version prefers lowercase
   properties: {
     reserved: true
   }
 }
 
-resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
+resource appServiceApp 'Microsoft.Web/sites@2023-12-01' = {
   name: nfRunnerAPIAppName
   location: location
   tags: {
@@ -53,7 +51,7 @@ resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
     serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
-      linuxFxVersion: 'DOTNETCORE|6.0'
+      linuxFxVersion: 'DOTNETCORE|8.0'
       connectionStrings: [
         {
           name: 'DefaultConnection'
@@ -61,7 +59,7 @@ resource appServiceApp 'Microsoft.Web/sites@2021-01-15' = {
           type: 'SQLAzure'
         }
       ]
-      appSettings: [        
+      appSettings: [
         {
           name: 'AzureStorage__AZURE_STORAGE_ACCOUNTNAME'
           value: storageAccountName
