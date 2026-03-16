@@ -15,7 +15,7 @@ on:
 env:
   BUILDCONFIGURATION: 'Release'
   AZURE_SUBSCRIPTION_ID: '17fb0f57-d583-454c-8f5a-b8782c8cd9d6'
-  AZURE_RESOURCE_GROUP: 'rg-genomics-poc-uksouth-001'
+  AZURE_RESOURCE_GROUP: 'rg-genomics-poc-ukwest-001'
 
 jobs:
   build:
