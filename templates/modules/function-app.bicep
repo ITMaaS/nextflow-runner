@@ -57,7 +57,7 @@ resource plan 'Microsoft.Web/serverfarms@2020-12-01' = {
   }
   kind: 'functionapp'
   sku: {
-    tier: 'FlexConsumption',
+    tier: 'FlexConsumption'
     name: 'FC1'
   }
   properties: {}
