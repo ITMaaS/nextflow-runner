@@ -14,8 +14,8 @@ on:
 
 env:
   BUILDCONFIGURATION: 'Release'
-  AZURE_SUBSCRIPTION_ID: '1c642d88-5042-4d19-9d49-49be6612a40f'
-  AZURE_RESOURCE_GROUP: 'rg-nextflow-runner'
+  AZURE_SUBSCRIPTION_ID: '17fb0f57-d583-454c-8f5a-b8782c8cd9d6'
+  AZURE_RESOURCE_GROUP: 'rg-genomics-poc-uksouth-001'
 
 jobs:
   build:
